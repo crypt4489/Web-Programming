@@ -1,6 +1,7 @@
 __pycache__
-./react/node_modules/
-./react/dist/
+react/node_modules/
+react/dist/
+react/.babelrc
 bin
 include
 lib
