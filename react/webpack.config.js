@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const react_src = path.resolve(__dirname, 'react_src');
 const output_dir = path.resolve(__dirname, 'dist');
@@ -10,11 +11,14 @@ console.log(node_modules);
 
 module.exports = {
   // 1
-  entry: entry_point,
+  entry: {
+	  homepage: path.join(react_src, '/home.jsx'),
+	  secondpage: path.join(react_src, '/second.jsx'),
+  },
   // 2
   output: {
     path: output_dir,
-    filename: 'bundle.js'
+    filename: '[name]_bundle.js'
   },
   module: {
     rules: [
@@ -33,5 +37,17 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx"]
   },
+  plugins: [
+	new HtmlWebpackPlugin({
+		filename: 'index.html',
+		template: '../index.html',
+		chunks: ['homepage']
+	}),
+	new HtmlWebpackPlugin({
+		filename: 'secondpage.html',
+		template: '../secondpage.html',
+		chunks: ['secondpage']
+	})
+  ],
   mode: "development"	
 };

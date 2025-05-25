@@ -17,6 +17,14 @@ async def root():
     return HTMLResponse(content=content)
 
 
+@app.get("/secondpage")
+async def second():
+    content = ""
+    with open("secondpage.html", "r") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
+
+
 @app.get("/mike.png")
 async def mikepic():
     content = ""
