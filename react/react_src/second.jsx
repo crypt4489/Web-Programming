@@ -14,30 +14,45 @@ class SecondPage extends React.Component {
 			},
 			p2state: {
 				color: 'blue'
+			},
+			buttonelementslayout: {
+				display:'inline-block',
+				verticalAlign:'middle'
 			}
 		};
 	}
 
 	highlighttext(event) {
 		console.log("Hello, I pushed a button " + event.target.id);
-		const pstyle = event.target.id + "text";
-		console.log(pstyle);
-		if (pstyle === "button1text")
+		if (event.target.id === "button1")
 		{
+			var newColor = "blue"
+
+			if (this.state.p1state.color === "blue") {
+				newColor = "purple";	
+			}
+
 			this.setState(prevState => ({
-				p1state:{
+				p1state: {
 					...prevState.p1state,
-					color: 'red'
+					color: newColor
 				}
 			}));
 		} 
-		else if (pstyle === "button2text")
+		else if (event.target.id === "button2")
 		{
-			console.log("Here");
+
+			var newColor = "blue"
+
+			if (this.state.p2state.color === "blue")
+			{
+				newColor = "red";
+			}
+
 			this.setState(prevState => ({
 				p2state: {
 					...prevState.p2state,
-					color: 'purple'
+					color: newColor
 				}
 			}));
 		}
@@ -49,18 +64,35 @@ class SecondPage extends React.Component {
 	render() {
 
 	   const { color: pcolor } = this.state.p1state;
-	   const { color: pcolor2 } = this.state.p2state;	
+	   const { color: pcolor2 } = this.state.p2state;
+	   const { display: displaysets, verticalAlign: align } = this.state.buttonelementslayout
 	   return (
 		<>
 			<h1>This is my second component</h1>
-		   	<div>
-			<button style={{display:"inline-block", verticalAlign:"middle"}} onClick={this.highlighttext} id="button1">Button 1</button>
-		   	<p style={{ color: pcolor, display:"inline-block", verticalAlign:"middle"}} id="button1text">Button 1 Text</p>
+		   	<div> 
+			<button style={{display: displaysets, verticalAlign: align}} onClick={this.highlighttext} id="button1">Button 1</button>
+		   	<p style={{ color: pcolor, display: displaysets, verticalAlign: align}} id="button1text">Button 1 Text</p>
 			</div>
 		   	<div>
-		   	<button style={{display:"inline-block", verticalAlign:"middle"}} onClick={this.highlighttext} id="button2">Button 2</button>
-			<p style={{ color: pcolor2, display:"inline-block", verticalAlign:"middle"}} id="button2text">Button 2 Text</p>
+		   	<button style={{display:displaysets, verticalAlign:align}} onClick={this.highlighttext} id="button2">Button 2</button>
+			<p style={{ color: pcolor2, display: displaysets, verticalAlign: align}} id="button2text">Button 2 Text</p>
 			</div>
+
+		   	<div> 
+		   		<form id ="basicForm" action="/first-form" method="post">
+		   			<p>
+		   				<label htmlFor="name">Name:</label>
+		   				<input type="text" id="name" name="username"></input>
+		   			</p>
+		   			<p>
+		   				<label htmlFor="mail">Email:</label>
+		   				<input type="email" id="mail" name="user_email"></input>
+		   			</p>
+		   			<div>
+		   				<button type="submit" form="basicForm">Submit your stuff</button>
+		   			</div>
+		   		</form>
+		   	</div>
 		</>
 	   );
 	}

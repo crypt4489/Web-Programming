@@ -1,8 +1,16 @@
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+from typing import Annotated
 import uvicorn
+
+class FormData(BaseModel):
+    username : str
+    user_email : str
+
+
 
 app = FastAPI()
 
@@ -23,6 +31,11 @@ async def second():
     with open("secondpage.html", "r") as f:
         content = f.read()
     return HTMLResponse(content=content)
+
+@app.post("/first-form")
+async def formfiller(username: Annotated[str, Form()], user_email: Annotated[str, Form()]) -> FormData:
+    print("It connects")
+    return FormData(username=username, user_email=user_email)
 
 
 @app.get("/mike.png")
