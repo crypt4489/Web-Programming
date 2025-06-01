@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -18,28 +18,32 @@ app.mount("/images", StaticFiles(directory="images"), name="images")
 app.mount("/react/dist", StaticFiles(directory="react/dist"), name="react")
 
 @app.get("/")
-async def root():
+async def root(request : Request) -> HTMLResponse:
+    print(request.client.host, request.client.port)
     content = ""
-    with open("index.html", 'r') as f:
+    with open("./react/dist/index.html", 'r') as f:
         content = f.read()
     return HTMLResponse(content=content)
 
 
 @app.get("/secondpage")
-async def second():
+async def second(request : Request) -> HTMLResponse:
+    print(request.client.host, request.client.port)
     content = ""
-    with open("secondpage.html", "r") as f:
+    with open("./react/dist/secondpage.html", "r") as f:
         content = f.read()
     return HTMLResponse(content=content)
 
 @app.post("/first-form")
-async def formfiller(username: Annotated[str, Form()], user_email: Annotated[str, Form()]) -> FormData:
+async def formfiller(request : Request, username: Annotated[str, Form()], user_email: Annotated[str, Form()]) -> FormData:
+    print(request.client.host, request.client.port)   
     print("It connects")
     return FormData(username=username, user_email=user_email)
 
 
 @app.get("/mike.png")
-async def mikepic():
+async def mikepic(request : Request) -> str:
+    print(request.client.host, request.client.port)
     content = ""
     with open("mike.png", 'r') as mike:
         content = mike.read()

@@ -18,7 +18,8 @@ module.exports = {
   // 2
   output: {
     path: output_dir,
-    filename: '[name]_bundle.js'
+    filename: '[name]_bundle.js',
+    publicPath: '/react/dist/'
   },
   module: {
     rules: [
@@ -40,12 +41,12 @@ module.exports = {
   plugins: [
 	new HtmlWebpackPlugin({
 		filename: 'index.html',
-		template: '../index.html',
+		template: 'template.html',
 		chunks: ['homepage']
 	}),
 	new HtmlWebpackPlugin({
 		filename: 'secondpage.html',
-		template: '../secondpage.html',
+		template: 'template.html',
 		chunks: ['secondpage']
 	})
   ],

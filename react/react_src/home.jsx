@@ -13,7 +13,7 @@ class HomePage extends React.Component {
 	}
 }
 
-const container = document.getElementById('apphome');
+const container = document.getElementById('renderpage');
 const root = ReactDOM.createRoot(container);
 root.render(<HomePage />);
 

@@ -98,7 +98,7 @@ class SecondPage extends React.Component {
 	}
 }
 
-const container = document.getElementById('secondhome');
+const container = document.getElementById('renderpage');
 const root = ReactDOM.createRoot(container);
 root.render(<SecondPage />);
 
