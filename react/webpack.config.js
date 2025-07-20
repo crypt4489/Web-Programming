@@ -14,6 +14,7 @@ module.exports = {
   entry: {
 	  homepage: path.join(react_src, '/home.jsx'),
 	  secondpage: path.join(react_src, '/second.jsx'),
+	  hostdetails: path.join(react_src, '/hostdetails.jsx')
   },
   // 2
   output: {
@@ -48,6 +49,11 @@ module.exports = {
 		filename: 'secondpage.html',
 		template: 'template.html',
 		chunks: ['secondpage']
+	}),
+	new HtmlWebpackPlugin({
+		filename: 'hostdetails.html',
+		template: 'template.html',
+		chunks: ['hostdetails']
 	})
   ],
   mode: "development"	

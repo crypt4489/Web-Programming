@@ -8,6 +8,10 @@ from contextlib import closing
 from datetime import datetime, timedelta, timezone
 import uvicorn
 import sqlite3
+from hostdetails import HostDetails
+
+
+
 
 class FormData(BaseModel):
     username : str
@@ -16,7 +20,12 @@ class FormData(BaseModel):
 
 
 app = FastAPI()
+h = None
 
+@app.on_event("startup")
+async def startup():
+    global h
+    h = HostDetails()
 
 
 def check_db(ip : str) -> int:
@@ -76,12 +85,35 @@ async def second(request : Request, response : Response) -> HTMLResponse:
 
     return html
 
+@app.get("/hostdetails", response_class=HTMLResponse)
+async def second(request : Request, response : Response) -> HTMLResponse:
+    print(request.client.host, request.client.port)
+    
+    session_active = request.cookies.get("session_cookie")
+    
+    content = ""
+    with open("./react/dist/hostdetails.html", 'r') as f:
+        content = f.read()
+    html = HTMLResponse(content=content)
+
+    if session_active is None or session_active != "active":
+        print(check_db(request.client.host))
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+        html.set_cookie(key="session_cookie", httponly=True, value="active", expires=expire) 
+
+    return html
+
 @app.post("/first-form")
 async def formfiller(request : Request, username: Annotated[str, Form()], user_email: Annotated[str, Form()]) -> FormData:
     print(request.client.host, request.client.port)   
     print("It connects")
     return FormData(username=username, user_email=user_email)
 
+
+@app.get("/host-details")
+async def hostdeats(request: Request):
+    print(request.client.host, request.client.port)
+    return h.GetHostInfo()
 
 @app.get("/mike.png", response_class=FileResponse)
 async def mikepic(request : Request) -> FileResponse:

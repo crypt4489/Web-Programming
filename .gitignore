@@ -5,5 +5,4 @@ react/.babelrc
 bin
 include
 lib
-images
-
+*.db
